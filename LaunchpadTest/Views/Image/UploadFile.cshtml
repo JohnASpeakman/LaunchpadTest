@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "UploadFile";
+}
+
+<h2>UploadFile</h2>
+
+@using (Html.BeginForm("UploadFile", "Image", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+
+    if (Session["Admin"] != null) {
+        if ((bool)Session["Admin"]) {
+            <div>
+                @Html.TextBox("file", "", new { type = "file" }) <br />
+
+                @Html.TextBox("Name","Name",new { Type="string"}) <br /><br />
+
+                <input type="submit" value="Upload" onclick='this.disabled = "disabled";' />
+
+                @ViewBag.Message
+
+            </div>
+        } else {
+            <p>Admin only</p>
+        }
+    } else {
+        <p>Log in as ADMIN to access</p>
+    }
+}  

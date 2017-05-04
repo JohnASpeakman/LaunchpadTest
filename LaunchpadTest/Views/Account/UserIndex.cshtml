@@ -1,0 +1,60 @@
+﻿@model IEnumerable<LaunchpadTest.Models.UserAccount>
+
+@{
+    ViewBag.Title = "UserIndex";
+}
+
+<h2>User Index</h2>
+
+
+@if (Session["UserID"] != null) {
+    if (Session["Admin"] != null) {
+        if ((bool)Session["Admin"]) {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Admin)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserID)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Admin)
+                        </td>
+                        @if (item.UserID.ToString() != Session["UserID"].ToString()) {
+                            <td>
+                                @using (Html.BeginForm("Delete", "Account", new { id = item.UserID })) {
+                                    @Html.AntiForgeryToken()
+                                    <input type="submit" value="Delete" />
+                                }
+
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+            }
+        }
+    }
+    else {
+    <p>
+        @Html.ActionLink("Login", "Login") or @Html.ActionLink("Register", "Register") as ADMIN to view
+    </p>
+}

@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Launchpad Test</h1>
+    <p class="lead">Image viewer with facial recognition</p>
+</div>
+
+@if (Session["UserID"] != null) {
+    <!--if logged in-->
+    <div class="row">
+        <div class="col-md-4">
+            <h2>View Models</h2>
+            <input class="btn btn-default" type="button" value="View" onclick="location.href='@Url.Action("../Image/ViewImage", "View", new { @imageVal = 0})'" />
+        </div>
+        <div class="col-md-4">
+            <h2>View Shortlist</h2>
+            <p><a class="btn btn-default" value="Shortlist">View &raquo;</a></p>
+        </div>
+    </div>
+    if (Session["Admin"] != null) {
+        if ((bool)Session["Admin"]) {
+            <!--ADMIN ONLY controls-->
+        <div class="row">
+
+            <div class="col-md-4">
+                <h2>Upload Image</h2>
+
+                <input class="btn btn-default" type="button" value="View" onclick="location.href='@Url.Action("../Image/UploadFile", "View")'" />
+            </div>
+
+            <div class="col-md-4">
+                <h2>View User list</h2>
+
+                <input class="btn btn-default" type="button" value="View" onclick="location.href='@Url.Action("../Account/UserIndex", "View")'" />
+
+            </div>
+        </div>
+        }
+    }
+}

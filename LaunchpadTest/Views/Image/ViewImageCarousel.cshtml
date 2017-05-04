@@ -1,0 +1,86 @@
+﻿
+@model IEnumerable<LaunchpadTest.Models.ImageModel>
+@{
+    ViewBag.Title = "ViewImageCarousel";
+}
+
+<h2>Carousel View</h2>
+
+<div>
+    @if (Session["UserID"] != null) { <!--check logged in-->
+
+        <div style="position: relative; text-align: center;">
+            <input class="btn btn-default" type="button" value="Grid View" onclick="location.href='@Url.Action("../Image/ViewImage", "View",new {@imageVal = ViewBag.imageValue}, null)'" />
+        </div>
+    }
+</div>
+
+<div id="my-carousel" class="carousel slide" data-ride="carousel" style="width:300px; margin:0 auto;">
+    @if (Session["UserID"] != null) {
+        <!--CAROUSEL-->
+        <ol class="carousel-indicators">
+            <!--set slides-->
+            @for (int i = 0; i <= ViewBag.Files.Length - 1; ++i) {
+
+                    if (i == 0) {
+                    <li data-target="#my-carousel" data-slide-to="0" class="active"></li>
+                }
+                else {
+                    <li data-target="#my-carousel" data-slide-to="@i"></li>
+                }
+            }
+
+        </ol>
+        <div class="carousel-inner">
+            <!--load images/ names into carousel-->
+            @for (int i = 0; i <= ViewBag.Files.Length - 1; ++i) {
+                    if (i == 0) {
+                    <div class="item active">
+                        <img width="230" height="230" src="@Url.Content("~/Data/Face/" + new FileInfo(ViewBag.Files[i]).Name)">
+                        <div class="carousel-caption">
+                            <h3> @Url.Content(System.IO.Path.GetFileNameWithoutExtension(new FileInfo(ViewBag.Files[i]).Name))</h3>
+                        </div>
+                    </div>
+                }
+                else {
+                    <div class="item">
+                        <img width="230" height="230" src="@Url.Content("~/Data/Face/" + new FileInfo(ViewBag.Files[i]).Name)">
+                        <div class="carousel-caption">
+                            <h3> @Url.Content(System.IO.Path.GetFileNameWithoutExtension(new FileInfo(ViewBag.Files[i]).Name))</h3>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <!--carousel control buttons-->
+            <a class="left carousel-control" href="#my-carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#my-carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+    }
+</div>
+
+
+
+<div>
+
+    <p></p><p></p>@if (Session["UserID"] != null) {
+        <!--main image display-->
+        <div style="position: relative; text-align: center">
+
+            <input class="btn btn-default" type="button" value="Last" onclick="location.href='@Url.Action("../Image/ViewImageCarousel", "View",new {@imageVal = ViewBag.LastImage})'" />
+            <input class="btn btn-default" type="button" value="Next" onclick="location.href='@Url.Action("../Image/ViewImageCarousel", "View",new {@imageVal = ViewBag.NextImage})'" />
+        </div>
+        <img src="@Url.Content(ViewBag.LargeImage)" align="middle">
+        <h3> @Url.Content(System.IO.Path.GetFileNameWithoutExtension(new FileInfo(ViewBag.Files[ViewBag.imageValue]).Name))</h3>
+    }
+    else {
+        <p>log in to view</p>
+    }
+</div>
+
+
+
+
